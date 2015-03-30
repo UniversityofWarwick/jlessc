@@ -410,7 +410,7 @@ class LessParser implements FormattableContainer {
                 currentRule.add( new CssAtRule( reader, "@import " + name + ';') );
                 return;
             }
-            if( "file".equals( baseURL.getProtocol() ) && filename.lastIndexOf( '.' ) < filename.lastIndexOf( '/' ) ) {
+            if( "file".equals( baseURL.getProtocol() ) && filename.lastIndexOf( '.' ) <= filename.lastIndexOf( '/' ) ) {
                 filename += ".less";
                 baseURL = (URL)old[1];
                 baseURL = baseURL == null ? new URL( filename ) : new URL( baseURL, filename );
