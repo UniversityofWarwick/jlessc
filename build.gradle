@@ -2,11 +2,14 @@ apply plugin: 'java'
 
 repositories {
 	jcenter()
+    maven {
+        url  "http://repo.spring.io/" 
+    }
 }
 
 dependencies {
-    compile		'com.google.code.findbugs:jsr305:3.0.0'
-	testCompile	'junit:junit:4.11'
+    compile		('com.google.code.findbugs:jsr305:3.0.0')
+    testCompile	('junit:junit:4.11')
 }
 
 sourceSets {

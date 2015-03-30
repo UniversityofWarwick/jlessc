@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -40,7 +40,7 @@ class Rule extends LessObject implements Formattable, FormattableContainer {
     private String[]                    selectors;
 
     private final List<Expression>      params;
-    
+
     private VariableExpression          varArg;
 
     private Expression                  guard;
@@ -48,7 +48,7 @@ class Rule extends LessObject implements Formattable, FormattableContainer {
     private List<Formattable>           properties = new ArrayList<>();
 
     private List<Rule>                  subrules = new ArrayList<>();
-    
+
     private HashMap<String, Expression> variables  = new HashMap<>();
 
     Rule( LessLookAheadReader reader, String selectors, Operation params, Expression guard ) {
@@ -204,7 +204,7 @@ class Rule extends LessObject implements Formattable, FormattableContainer {
     }
 
     /**
-     * 
+     *
      * @param sel
      * @param formatter
      */
@@ -345,7 +345,7 @@ class Rule extends LessObject implements Formattable, FormattableContainer {
 
     /**
      * Get a nested mixin of this rule.
-     * 
+     *
      * @param name
      *            the name of the mixin
      * @return the mixin or null
@@ -397,6 +397,9 @@ class Rule extends LessObject implements Formattable, FormattableContainer {
             }
 
             matching = guard.booleanValue( formatter );
+
+            // use XOR to invert if necessary
+            matching ^= guard.isNegated();
 
             if( mixinParameters != null ) {
                 formatter.removeVariables( mixinParameters );

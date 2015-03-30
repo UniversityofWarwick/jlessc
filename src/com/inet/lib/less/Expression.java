@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -54,17 +54,17 @@ interface Expression extends Formattable {
 
     /**
      * The data type of the expression
-     * 
+     *
      * @param formatter
      *            the CCS target
-     * 
+     *
      * @return one of the constant
      */
     int getDataType( CssFormatter formatter );
 
     /**
      * Get the numeric value.
-     * 
+     *
      * @param formatter
      *            the CCS target
      * @return the value
@@ -73,7 +73,7 @@ interface Expression extends Formattable {
 
     /**
      * Get the boolean value
-     * 
+     *
      * @param formatter
      *            the CCS target
      * @return the value
@@ -82,7 +82,7 @@ interface Expression extends Formattable {
 
     /**
      * Get the string value
-     * 
+     *
      * @param formatter
      *            the CCS target
      * @return the value
@@ -91,10 +91,24 @@ interface Expression extends Formattable {
 
     /**
      * Get the unit of a NUMBER value.
-     * 
+     *
      * @param formatter
      *            the CCS target
      * @return the unit or empty string if nothing
      */
     String unit( CssFormatter formatter );
+
+    /**
+     * Set flag for whether expression should be negated when used as a guard
+     *
+     * @param state the new negation state
+     */
+    void setNegated(boolean state);
+
+    /**
+     * Get flag for whether expression should be negated when used as a guard
+     *
+     * @return negation state
+     */
+    boolean isNegated();
 }

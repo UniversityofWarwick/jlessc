@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -65,7 +65,7 @@ class LessParser implements FormattableContainer {
 
     /**
      * Get the parsed rules
-     * 
+     *
      * @return the rules
      */
     List<Formattable> getRules() {
@@ -106,7 +106,7 @@ class LessParser implements FormattableContainer {
 
     private void parse() {
         try {
-            
+
             for( ;; ) {
                 int ch = reader.nextBlockMarker();
                 switch( ch ) {
@@ -287,6 +287,14 @@ class LessParser implements FormattableContainer {
                                 throw createException( "Unrecognized input: '" + ch + "'" );
                             }
                             break;
+                        case "when not":
+                            guard = parseExpression((char) 0);
+                            guard.setNegated(true);
+                            ch = read();
+                            if( ch != ')' ) {
+                                throw createException( "Unrecognized input: '" + ch + "'" );
+                            }
+                            break;
                         case "and":
                             guard = concat( guard, '&', parseExpression( (char)0 ) );
                             ch = read();
@@ -423,11 +431,11 @@ class LessParser implements FormattableContainer {
     }
 
     private Rule rule( String selector, Operation params, Expression guard ) {
-        Rule rule = new Rule( reader, selector, params, guard );
-        parseRule( rule );
+        Rule rule = new Rule(reader, selector, params, guard );
+        parseRule(rule);
         return rule;
     }
-    
+
     private void parseRule( Rule rule ) {
         ruleStack.add( rule );
         for( ;; ) {
@@ -451,7 +459,7 @@ class LessParser implements FormattableContainer {
         }
 
     }
-    
+
 /*    private void rule( Rule rule ) {
         StringBuilder builder = cachesBuilder;
         Operation expr = null;
@@ -459,7 +467,7 @@ class LessParser implements FormattableContainer {
             char ch = read();
             switch( ch ) {
                 case ':':
-                    switch( firstNonWhitespace( builder ) ) { 
+                    switch( firstNonWhitespace( builder ) ) {
                         case '&': // pseudo-selectors
                         case '.': // Mixin
                         case '#': // Mixin
@@ -753,7 +761,7 @@ class LessParser implements FormattableContainer {
             }
         }
     }
-        
+
     Operation parseParameterList() {
         Expression left = null;
         char ch;
@@ -777,11 +785,11 @@ class LessParser implements FormattableContainer {
         }
         return new Operation( reader, left, ',' );
     }
-    
+
     private String readQuote( char quote ) {
         StringBuilder builder = cachesBuilder;
         builder.setLength( 0 );
-        builder.append( quote );
+        builder.append(quote);
         boolean isBackslash = false;
         for( ;; ) {
             char ch = read();
@@ -797,7 +805,7 @@ class LessParser implements FormattableContainer {
 
     private Operation parseUrlParam() {
         StringBuilder builder = cachesBuilder;
-        builder.setLength( 0 );
+        builder.setLength(0);
         Operation op = new Operation( reader, new ValueExpression( reader, relativeURL.getPath() ), ';' );
         for( ;; ) {
             char ch = read();
@@ -834,7 +842,7 @@ class LessParser implements FormattableContainer {
 
     /**
      * Concatenate 2 expressions to one expression.
-     * 
+     *
      * @param left
      *            the left, can be null
      * @param right
@@ -851,7 +859,7 @@ class LessParser implements FormattableContainer {
         } else {
             op = new Operation( reader, left, operator );
         }
-        op.addOperand( right );
+        op.addOperand(right);
         return op;
     }
 
@@ -871,9 +879,9 @@ class LessParser implements FormattableContainer {
 
     /**
      * Parse comments
-     * 
+     *
      * @param container optional container for the parsed comments
-     * 
+     *
      * @return return true, if a comment was parsed, false if the slash must be parse anywhere else
      */
     private boolean comment( FormattableContainer container ) {
@@ -913,7 +921,7 @@ class LessParser implements FormattableContainer {
 
     /**
      * Read a single character from reader or from back buffer
-     * 
+     *
      * @return a character or -1 if EOF
      */
     private char read() {
@@ -922,7 +930,7 @@ class LessParser implements FormattableContainer {
 
     /**
      * Push a char back to the stream
-     * 
+     *
      * @param ch
      *            the char
      */
@@ -932,7 +940,7 @@ class LessParser implements FormattableContainer {
 
     /**
      * Get a trim string from the builder and clear the builder.
-     * 
+     *
      * @param builder
      *            the builder.
      * @return a trim string
@@ -946,7 +954,7 @@ class LessParser implements FormattableContainer {
 
     /**
      * If the builder is empty or contains only whitespaces
-     * 
+     *
      * @param builder
      *            the builder.
      * @return true if there is no content
@@ -959,16 +967,16 @@ class LessParser implements FormattableContainer {
         }
         return true;
     }
-    
+
     /**
      * If the builder contains a Mixin name.
-     * 
+     *
      * @param builder
      *            the builder.
      * @return true if content can be an Mixin
      */
     private boolean isMixin( StringBuilder builder ){
-        switch( firstNonWhitespace( builder ) ) { 
+        switch( firstNonWhitespace( builder ) ) {
             case '&': // pseudo-selectors
             case '.': // Mixin
             case '#': // Mixin
@@ -984,7 +992,7 @@ class LessParser implements FormattableContainer {
      * <li>mixins
      * <li>selectors
      * </li>
-     * 
+     *
      * @param builder
      *            the builder to check
      * @return
@@ -1043,7 +1051,7 @@ class LessParser implements FormattableContainer {
 
     /**
      * The first character in the builder that is not a whitespace. Else there are only whitespaces
-     * 
+     *
      * @param builder
      *            the builder.
      * @return the first non whitespace
@@ -1059,7 +1067,7 @@ class LessParser implements FormattableContainer {
 
     /**
      * Throw an unrecognized input exception if there content in the StringBuilder.
-     * 
+     *
      * @param builder
      */
     private void throwUnrecognizedInputIfAny( StringBuilder builder, int ch ) {
@@ -1071,7 +1079,7 @@ class LessParser implements FormattableContainer {
 
     /**
      * Create a Exception with a message. Can be add more information later
-     * 
+     *
      * @param msg
      *            the message
      * @return the created exception
