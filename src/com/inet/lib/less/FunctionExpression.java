@@ -41,6 +41,7 @@ import static com.inet.lib.less.ColorUtils.multiply;
 import static com.inet.lib.less.ColorUtils.red;
 import static com.inet.lib.less.ColorUtils.rgb;
 import static com.inet.lib.less.ColorUtils.rgba;
+import static com.inet.lib.less.ColorUtils.screen;
 import static com.inet.lib.less.ColorUtils.toHSL;
 import static com.inet.lib.less.ColorUtils.toHSV;
 
@@ -556,6 +557,9 @@ class FunctionExpression extends AbstractExpression {
                     return;
                 case "multiply":
                     doubleValue = multiply( getColor( 0, formatter ), getColor( 1, formatter ) );
+                    return;
+                case "screen":
+                    doubleValue = screen(getColor(0, formatter), getColor(1, formatter));
                     return;
                 case "unit":
                     type = NUMBER;

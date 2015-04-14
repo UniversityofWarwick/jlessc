@@ -3,4 +3,4 @@
 /lib/
 /.gradle/
 /.idea/
-JLessC.iml
+*.iml

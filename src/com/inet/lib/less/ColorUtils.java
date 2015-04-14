@@ -61,7 +61,7 @@ class ColorUtils {
     }
 
     static double clamp( double val ) {
-        return Math.min( 1, Math.max( 0, val ) );
+        return Math.min(1, Math.max(0, val));
     }
 
     static double rgba( double r, double g, double b, double a ) {
@@ -99,7 +99,7 @@ class ColorUtils {
     }
 
     static int blue( double color ) {
-        return colorDigit( (Double.doubleToRawLongBits( color ) & 0xFFFF) / 256.0 ); 
+        return colorDigit( (Double.doubleToRawLongBits( color ) & 0xFFFF) / 256.0 );
     }
 
     private static double hsla_hue(double h, double m1, double m2) {
@@ -254,12 +254,28 @@ class ColorUtils {
         long g1 = ((argb1 >> 16) & 0xFFFF);
         long b1 = ((argb1) & 0xFFFF);
 
-        long argb2 = Double.doubleToRawLongBits( color2 );
+        long argb2 = Double.doubleToRawLongBits(color2);
         long r2 = ((argb2 >> 32) & 0xFFFF);
         long g2 = ((argb2 >> 16) & 0xFFFF);
         long b2 = ((argb2) & 0xFFFF);
 
         argb1 = ((r1 * r2) / 0xFF00) << 32 | ((g1 * g2) / 0xFF00) << 16 | ((b1 * b2) / 0xFF00);
+
+        return Double.longBitsToDouble( argb1 );
+    }
+
+    static double screen( double color1, double color2 ) {
+        long argb1 = Double.doubleToRawLongBits( color1 );
+        long r1 = ((argb1 >> 32) & 0xFFFF);
+        long g1 = ((argb1 >> 16) & 0xFFFF);
+        long b1 = ((argb1) & 0xFFFF);
+
+        long argb2 = Double.doubleToRawLongBits(color2);
+        long r2 = ((argb2 >> 32) & 0xFFFF);
+        long g2 = ((argb2 >> 16) & 0xFFFF);
+        long b2 = ((argb2) & 0xFFFF);
+
+        argb1 = (r1 + r2 - ((r1 * r2) / 0xFF00)) << 32 | (g1 + g2 - ((g1 * g2) / 0xFF00)) << 16 | (b1 + b2 - ((b1 * b2) / 0xFF00));
 
         return Double.longBitsToDouble( argb1 );
     }
